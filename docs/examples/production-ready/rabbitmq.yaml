@@ -40,7 +40,7 @@ spec:
       default_pass = Oe.123456!
   persistence:
     storageClassName: vmware2
-    storage: "250mi"
+    storage: "250Mi"
   override:
     statefulSet:
       spec:
