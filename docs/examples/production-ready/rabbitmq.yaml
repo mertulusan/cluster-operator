@@ -6,6 +6,8 @@ metadata:
   name: sovos-rabbitmq
 spec:
   replicas: 3
+  service:
+    type: LoadBalancer
   image: rabbitmq:3.9.20
   resources:
     requests:
