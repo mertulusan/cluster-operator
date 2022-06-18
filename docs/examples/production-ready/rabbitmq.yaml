@@ -1,9 +1,24 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
-  name: production-ready
+  labels:
+    app: sovos-rabbitmq
+  name: sovos-rabbitmq
 spec:
   replicas: 3
+  image: rabbitmq:3.9.20
+  service:
+    type: LoadBalancer
+    ports:
+      - name: http
+        protocol: TCP
+        port: 15672
+      - name: prometheus
+        protocol: TCP
+        port: 15692
+      - name: amqp
+        protocol: TCP
+        port: 5672
   resources:
     requests:
       cpu: 1
@@ -11,25 +26,31 @@ spec:
     limits:
       cpu: 2
       memory: 2Gi
+  terminationGracePeriodSeconds: 60
   rabbitmq:
+    additionalPlugins:
+      - rabbitmq_management
+      - rabbitmq_prometheus
+      - rabbitmq_peer_discovery_k8s
     additionalConfig: |
-      cluster_partition_handling = pause_minority
-      vm_memory_high_watermark_paging_ratio = 0.99
+      cluster_partition_handling = autoheal
+      log.console.level = info
+      log.file.level = info
+      vm_memory_high_watermark_paging_ratio = 0.85
+      vm_memory_high_watermark.relative = 0.7
       disk_free_limit.relative = 1.0
       collect_statistics_interval = 10000
+      cluster_formation.node_cleanup.interval = 30
+      cluster_formation.node_cleanup.only_log_warning = true
+      cluster_partition_handling = pause_minority
+      queue_master_locator = min-masters
+      loopback_users.guest = false
+      default_user_tags.administrator = true
+      default_user = admin
+      default_pass = Oe.123456!
   persistence:
-    storageClassName: vmware-rabbitmq
-    storage: "100Mi"
-  affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                  - production-ready
-          topologyKey: kubernetes.io/hostname
+    storageClassName: vmware2
+    storage: "250mi"
   override:
     statefulSet:
       spec:
@@ -42,4 +63,4 @@ spec:
                 whenUnsatisfiable: DoNotSchedule
                 labelSelector:
                   matchLabels:
-                    app.kubernetes.io/name: production-ready
+                    app.kubernetes.io/name: sovos-rabbitmq
