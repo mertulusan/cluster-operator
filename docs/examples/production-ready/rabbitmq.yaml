@@ -8,7 +8,7 @@ spec:
   replicas: 3
   service:
     type: ClusterIP
-  image: rabbitmq:3.9.20
+  image: rabbitmq:3.10.5
   resources:
     requests:
       cpu: 1
@@ -23,6 +23,8 @@ spec:
       - rabbitmq_prometheus
       - rabbitmq_peer_discovery_k8s
     additionalConfig: |
+      default_user = admin
+      default_pass = Oe123456
       cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
       cluster_formation.k8s.host = kubernetes.default.svc.cluster.local
       cluster_formation.k8s.address_type = hostname
@@ -31,11 +33,11 @@ spec:
       cluster_partition_handling = autoheal
       log.console.level = info
       log.file.level = info
-      disk_free_limit.absolute = 3000000000
-      vm_memory_high_watermark_paging_ratio = 0.85
+      disk_free_limit.absolute = 100MB
+      vm_memory_high_watermark_paging_ratio = 0.90
       vm_memory_high_watermark.relative = 0.7
       collect_statistics_interval = 10000
       queue_master_locator = min-masters
   persistence:
     storageClassName: vmware2
-    storage: "250Mi"
+    storage: "500Mi"
