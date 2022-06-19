@@ -33,10 +33,6 @@ spec:
       cluster_formation.node_cleanup.interval = 30
       cluster_formation.node_cleanup.only_log_warning = true
       queue_master_locator = min-masters
-      loopback_users.guest = false
-      default_user_tags.administrator = true
-      default_user = admin
-      default_pass = Oe123456
   persistence:
     storageClassName: vmware2
     storage: "250Mi"
