@@ -11,11 +11,11 @@ spec:
   image: rabbitmq:3.10.5
   resources:
     requests:
-      cpu: 1
-      memory: 1Gi
-    limits:
       cpu: 2
       memory: 2Gi
+    limits:
+      cpu: 3
+      memory: 3Gi
   terminationGracePeriodSeconds: 60
   rabbitmq:
     additionalPlugins:
@@ -23,19 +23,22 @@ spec:
       - rabbitmq_prometheus
       - rabbitmq_peer_discovery_k8s
     additionalConfig: |
+      default_user = admin
+      default_pass = Oe123456
+      loopback_users = none
       cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
       cluster_formation.k8s.host = kubernetes.default.svc.cluster.local
       cluster_formation.k8s.address_type = hostname
       cluster_formation.node_cleanup.interval = 30
       cluster_formation.node_cleanup.only_log_warning = true
-      cluster_partition_handling = autoheal
+      cluster_partition_handling = pause-minority
       log.console.level = info
       log.file.level = info
-      disk_free_limit.absolute = 100MB
-      vm_memory_high_watermark_paging_ratio = 0.90
+      disk_free_limit.relative = 1.5      
       vm_memory_high_watermark.relative = 0.7
-      collect_statistics_interval = 10000
       queue_master_locator = min-masters
+      heartbeat = 20
+      collect_statistics_interval = 10000
   persistence:
     storageClassName: vmware2
     storage: "500Mi"
