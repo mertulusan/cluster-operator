@@ -36,7 +36,7 @@ spec:
       loopback_users.guest = false
       default_user_tags.administrator = true
       default_user = admin
-      default_pass = Oe.123456!
+      default_pass = Oe123456
   persistence:
     storageClassName: vmware2
     storage: "250Mi"
