@@ -31,6 +31,7 @@ spec:
       cluster_partition_handling = autoheal
       log.console.level = info
       log.file.level = info
+      disk_free_limit.absolute = 3000000000
       vm_memory_high_watermark_paging_ratio = 0.85
       vm_memory_high_watermark.relative = 0.7
       collect_statistics_interval = 10000
