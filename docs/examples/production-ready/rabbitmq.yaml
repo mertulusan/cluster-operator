@@ -14,8 +14,8 @@ spec:
       cpu: 2
       memory: 2Gi
     limits:
-      cpu: 3
-      memory: 3Gi
+      cpu: 4
+      memory: 4Gi
   terminationGracePeriodSeconds: 60
   rabbitmq:
     additionalPlugins:
@@ -34,11 +34,11 @@ spec:
       cluster_partition_handling = pause_minority
       log.console.level = info
       log.file.level = info
-      disk_free_limit.relative = 1.5      
+      disk_free_limit.relative = 1.0      
       vm_memory_high_watermark.relative = 0.7
       queue_master_locator = min-masters
       heartbeat = 20
       collect_statistics_interval = 10000
   persistence:
     storageClassName: vmware2
-    storage: "500Mi"
+    storage: "10Gi"
