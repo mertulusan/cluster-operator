@@ -31,7 +31,7 @@ spec:
       cluster_formation.k8s.address_type = hostname
       cluster_formation.node_cleanup.interval = 30
       cluster_formation.node_cleanup.only_log_warning = true
-      cluster_partition_handling = pause-minority
+      cluster_partition_handling = pause_minority
       log.console.level = info
       log.file.level = info
       disk_free_limit.relative = 1.5      
