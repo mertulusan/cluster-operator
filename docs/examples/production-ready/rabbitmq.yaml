@@ -24,7 +24,7 @@ spec:
       - rabbitmq_peer_discovery_k8s
     additionalConfig: |
       default_user = admin
-      default_pass = Oe123456
+      default_pass = XDQypvu67qKcyhnS
       loopback_users = none
       cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
       cluster_formation.k8s.host = kubernetes.default.svc.cluster.local
